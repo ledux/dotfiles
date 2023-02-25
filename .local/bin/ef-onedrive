@@ -1,0 +1,4 @@
+#!/bin/sh
+
+errorlog=$(mktemp /tmp/ef_od.XXXXXXX)
+onedriver ~/educationfirst/onedrive --log warn &

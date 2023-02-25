@@ -1,0 +1,4 @@
+#!/bin/sh
+
+icon="🇮🇳"
+TZ=Asia/Calcutta date "+$icon %R"

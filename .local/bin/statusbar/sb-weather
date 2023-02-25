@@ -1,0 +1,11 @@
+#!/bin/sh
+
+location=${1-Entlebuch}
+
+rain=🌧️
+fog=🌫️
+wind=🎐
+sunrise=🌄
+sunset=🌇
+
+curl "wttr.in/$location?format=%l:+%c+%t+$rain+%p+-+$wind%w+$fog+%h+%P+-+%m+$sunrise%S+$sunset%s\n"

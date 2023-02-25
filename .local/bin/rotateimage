@@ -1,0 +1,16 @@
+#!/bin/bash
+
+picture="$1"
+
+if ! command -v identify &> /dev/null; then
+	echo 'identify from ImageMagick is needed'
+	exit 1
+fi
+
+if ! identify "$picture" >/dev/null 2>&1; then
+	echo "$picture is not a picture"
+	exit 2
+fi
+
+mogrify -rotate 90 "$picture"
+exit 0

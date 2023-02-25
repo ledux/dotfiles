@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# This is bound to Shift+PrintScreen by default, requires maim. It lets you
+# choose the kind of screenshot to take, including copying the image or even
+# highlighting an area to copy. scrotcucks on suicidewatch right now.
+
+screenshotdir="$HOME/nextcloud/Photos/screenshots"
+
+case "$(printf "a selected area\\ncurrent window\\nfull screen\\na selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -l 6 -i -p "Screenshot which area?")" in
+	"a selected area") maim --select $screenshotdir/pic-selected-"$(date --iso-8601=seconds).png" ;;
+	"current window") maim --window="$(xdotool getactivewindow)" $screenshotdir/pic-window-"$(date --iso-8601=seconds).png" ;;
+	"full screen") maim $screenshotdir/pic-full-"$(date --iso-8601=seconds).png" ;;
+	"a selected area (copy)") maim --select | xclip -selection clipboard -t image/png ;;
+	"current window (copy)") maim --window="$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png ;;
+	"full screen (copy)") maim | xclip -selection clipboard -t image/png ;;
+esac

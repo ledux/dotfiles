@@ -1,0 +1,115 @@
+" vim: filetype=vim
+" Start shell in current directory
+nnoremap t tj
+nnoremap s :shell<cr>
+
+" Display sorting dialog
+nnoremap S :sort<cr>
+
+" Toggle visibility of preview window
+nnoremap w :view<cr>
+vnoremap w :view<cr>gv
+
+" Open file in existing instance of gvim
+nnoremap o :!gvim --remote-tab-silent %f<cr>
+" Open file in new instance of gvim
+nnoremap O :!gvim %f<cr>
+
+" Open file in the background using its default program
+nnoremap gb :file &<cr>l
+
+" Interaction with system clipboard
+if has('win')
+    " Yank current directory path to Windows clipboard with forward slashes
+    nnoremap yp :!echo %"d:gs!\!/! %i | clip<cr>
+    " Yank path to current file to Windows clipboard with forward slashes
+    nnoremap yf :!echo %"c:gs!\!/! %i | clip<cr>
+elseif executable('xclip')
+    " Yank current directory path into the clipboard
+    nnoremap yd :!echo %d | xclip -selection clipboard %i<cr>
+    " Yank current file path into the clipboard
+    nnoremap yF :!echo %c:p | xclip -selection clipboard %i<cr>
+	nnoremap yf :!echo -n %c | xclip -selection clipboard %i<cr>
+	nnoremap <c-c> :!cat %f | xclip -selection clipboard <cr>
+elseif executable('xsel')
+    " Yank current directory path into primary and selection clipboards
+    nnoremap yd :!echo -n %d | xsel --input --primary %i &&
+                \ echo -n %d | xsel --clipboard --input %i<cr>
+    " Yank current file path into into primary and selection clipboards
+    nnoremap yf :!echo -n %c:p | xsel --input --primary %i &&
+                \ echo -n %c:p | xsel --clipboard --input %i<cr>
+endif
+
+" Mappings for faster renaming
+" Add to name at the beginning
+nnoremap I cW<c-a>
+" new root name
+nnoremap cc cW<c-u>
+" Add to name at the end of the file name (root)
+nnoremap A cW
+
+" Open console in current directory
+nnoremap ,t :!st &<cr>
+
+" Open editor to edit vifmrc and apply settings after returning to vifm
+nnoremap ,c :write | edit $MYVIFMRC | restart full<cr>
+
+" Toggle wrap setting on ,w key
+nnoremap ,w :set wrap!<cr>
+
+" Example of standard two-panel file managers mappings
+nnoremap <f1> :help<cr>
+nnoremap <f2> :touch<space>
+nnoremap <f3> :!less %f<cr>
+nnoremap <f4> :edit<cr>
+nnoremap <f5> :copy<cr>
+nnoremap <f6> :move<cr>
+nnoremap <f7> :mkdir<space>
+nnoremap <f8> :delete<cr>
+
+" Midnight commander alike mappings
+" Open current directory in the other pane
+nnoremap <a-i> :sync<cr>
+" Open directory under cursor in the other pane
+nnoremap <a-o> :sync %c<cr>
+" Swap panes
+nnoremap <c-u> <c-w>x
+
+" rotates an image by 90 degrees clockwise
+nnoremap R :!rotateimage %c<cr>
+
+" bookmarks
+nnoremap ,B :bmarks<cr>
+nnoremap ,bo :bmgo offiziell<cr>
+nnoremap ,bp :bmgo privat<cr>
+nnoremap ,bd :bmgo downloads<cr>
+nnoremap ,bc :bmgo config<cr>
+nnoremap ,bl :bmgo local<cr>
+nnoremap ,bh :bmgo home<cr>
+nnoremap ,be :bmgo ef<cr>
+
+
+" ------------------------------------------------------------------------------
+
+" Various customization examples
+
+" Use ag (the silver searcher) instead of grep
+"
+" set grepprg='ag --line-numbers %i %a %s'
+
+" Add additional place to look for executables
+"
+" let $PATH = $HOME.'/bin/fuse:'.$PATH
+
+" Block particular shortcut
+"
+" nnoremap <left> <nop>
+
+" Export IPC name of current instance as environment variable and use it to
+" communicate with the instance later.
+"
+" It can be used in some shell script that gets run from inside vifm, for
+" example, like this:
+"     vifm --server-name "$VIFM_SERVER_NAME" --remote +"cd '$PWD'"
+"
+" let $VIFM_SERVER_NAME = v:servername
